@@ -1,0 +1,12 @@
+# Cloudflare Pages Headers
+# Cache static assets aggressively since filenames are hashed
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Service worker should not be cached
+/sw.js
+  Cache-Control: no-cache
+
+# Manifest
+/manifest.json
+  Cache-Control: public, max-age=3600

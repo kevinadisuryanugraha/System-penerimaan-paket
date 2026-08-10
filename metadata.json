@@ -1,0 +1,6 @@
+{
+  "name": "Sistem Penerimaan Paket Satpam",
+  "description": "Aplikasi pencatatan dan pemindaian barcode/QR paket masuk untuk satpam.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
