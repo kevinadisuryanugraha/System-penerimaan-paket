@@ -156,7 +156,7 @@ export const PackageDetailModal: React.FC<PackageDetailModalProps> = ({
           </div>
 
           {/* Photo Preview if available */}
-          {(packageData.foto_paket_dataurl || packageData.foto_paket_id) ? (
+          {packageData.foto_paket_dataurl ? (
             <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-semibold text-slate-600 flex items-center gap-1.5">
@@ -171,7 +171,7 @@ export const PackageDetailModal: React.FC<PackageDetailModalProps> = ({
               </div>
               <div className="relative group overflow-hidden rounded-lg bg-slate-100 border border-slate-200 flex justify-center">
                 <img
-                  src={packageData.foto_paket_dataurl || ''}
+                  src={packageData.foto_paket_dataurl}
                   alt="Foto Paket"
                   className={`object-cover rounded-lg transition-all duration-300 ${
                     showPhotoMax ? 'max-h-96 w-full object-contain' : 'h-48 w-full object-cover'

@@ -147,10 +147,16 @@ export async function setSetting(key: string, value: string): Promise<void> {
 
 // === Seed Data ===
 
+let seedingInProgress = false;
+
 export async function seedInitialData(guardName: string): Promise<void> {
+  if (seedingInProgress) return;
+  
   const db = await getDB();
   const count = await db.count(PACKAGES_STORE);
   if (count > 0) return; // Don't seed if data exists
+  
+  seedingInProgress = true;
 
   const today = getTodayString();
   const yesterday = getTodayString(-1);
@@ -220,11 +226,18 @@ export async function seedInitialData(guardName: string): Promise<void> {
     },
   ];
 
-  const tx = db.transaction(PACKAGES_STORE, 'readwrite');
-  for (const pkg of seedPackages) {
-    await tx.store.add(pkg);
+  try {
+    const tx = db.transaction(PACKAGES_STORE, 'readwrite');
+    for (const pkg of seedPackages) {
+      await tx.store.add(pkg);
+    }
+    await tx.done;
+  } catch (err) {
+    console.error('Failed to seed initial data:', err);
+    // If seeding fails (e.g., race condition duplicate key), it's non-fatal
+  } finally {
+    seedingInProgress = false;
   }
-  await tx.done;
 }
 
 // === Helpers ===

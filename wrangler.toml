@@ -1,19 +1,12 @@
 # Cloudflare Pages deployment config
+# Deployed at: https://sistem-penerimaan-paket-satpam.pages.dev
 # Build command: npm run build
 # Output directory: dist
-# Environment variables set in Cloudflare Dashboard:
-#   VITE_DEFAULT_USERNAME (optional, default: satpam)
-#   VITE_DEFAULT_PASSWORD (optional, default: 123456)
 
 name = "sistem-penerimaan-paket-satpam"
 compatibility_date = "2025-01-01"
+pages_build_output_dir = "dist"
 
-# Cloudflare Pages configuration
-[pages]
-# Only needed for Pages Functions (not this project)
-# compatibility_flags = ["nodejs_compat"]
-
-# Build configuration (set in Cloudflare Pages dashboard)
-# Framework preset: None
-# Build command: npm run build
-# Build output directory: dist
+# Environment variables (set in Cloudflare Dashboard):
+#   VITE_DEFAULT_USERNAME (optional, default: satpam)
+#   VITE_DEFAULT_PASSWORD (optional, default: 123456)

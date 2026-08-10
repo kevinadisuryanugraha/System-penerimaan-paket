@@ -36,6 +36,8 @@ function AppContent() {
       if (session && session.isLoggedIn) {
         setCurrentUser(session);
         await seedInitialData(session.name);
+        const list = await PackageStorageService.getAllPackages();
+        setPackages(list);
       }
       setIsInitialized(true);
       setIsLoading(false);
@@ -49,10 +51,10 @@ function AppContent() {
   }, []);
 
   useEffect(() => {
-    if (isInitialized) {
+    if (isInitialized && currentUser?.isLoggedIn) {
       refreshPackagesList();
     }
-  }, [isInitialized, refreshPackagesList]);
+  }, [isInitialized, currentUser?.isLoggedIn, refreshPackagesList]);
 
   const showToast = useCallback((type: 'success' | 'error' | 'warning' | 'info', text: string) => {
     const id = `toast-${Date.now()}-${Math.random()}`;
@@ -69,10 +71,19 @@ function AppContent() {
 
   const handleLoginSuccess = useCallback(async (user: UserSession) => {
     setCurrentUser(user);
-    await seedInitialData(user.name);
+    setIsLoading(true);
+    try {
+      await seedInitialData(user.name);
+      const list = await PackageStorageService.getAllPackages();
+      setPackages(list);
+    } catch (err) {
+      console.error('Failed to initialize data:', err);
+      showToast('error', 'Gagal memuat data. Silakan refresh halaman.');
+    }
     setIsInitialized(true);
+    setIsLoading(false);
     navigate('/dashboard');
-  }, [navigate]);
+  }, [navigate, showToast]);
 
   const handleLogout = useCallback(() => {
     AuthService.logout();
